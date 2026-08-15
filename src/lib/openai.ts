@@ -4,7 +4,7 @@ import OpenAI from "openai";
 import { zodTextFormat } from "openai/helpers/zod";
 import { z } from "zod";
 
-const MODEL = "gpt-5.6-terra";
+const MODEL = "gpt-5.6-sol";
 
 const SYSTEM_INSTRUCTIONS = `You are Predrag’s real-time WordPress.com customer-support writing assistant.
 
@@ -14,7 +14,7 @@ Use natural, friendly and professional English. Sound like a competent human sup
 
 Keep most answers between 30 and 80 words. Prefer two to four short sentences. Give only the next one or two useful steps instead of a long list.
 
-Use the supplied conversation context and the retrieved official documentation. Never invent WordPress settings, menu locations, plugin behavior, plan features or troubleshooting steps.
+Use the previous conversation and the retrieved official documentation. Never invent WordPress settings, menu locations, plugin behavior, plan features or troubleshooting steps.
 
 First understand what the customer has already confirmed. Do not repeat steps they have already tried.
 
@@ -63,7 +63,6 @@ function officialSource(source: { title: string; url: string }) {
 }
 
 export async function draftSupportReply(input: {
-  context: string;
   customerMessage: string;
   history: Array<{ customer: string; reply: string }>;
 }) {
@@ -81,7 +80,6 @@ export async function draftSupportReply(input: {
     .join("\n\n");
 
   const prompt = [
-    input.context.trim() ? `Site details / context:\n${input.context.trim()}` : "",
     history ? `Previous conversation:\n${history}` : "",
     `Customer's latest message:\n${input.customerMessage.trim()}`,
   ]
@@ -91,7 +89,7 @@ export async function draftSupportReply(input: {
   const client = new OpenAI({ apiKey });
   const response = await client.responses.parse({
     model: MODEL,
-    reasoning: { effort: "low" },
+    reasoning: { effort: "max" },
     instructions: SYSTEM_INSTRUCTIONS,
     input: prompt,
     tools: [
@@ -106,7 +104,7 @@ export async function draftSupportReply(input: {
       format: zodTextFormat(SupportResponseSchema, "support_reply"),
       verbosity: "low",
     },
-    max_output_tokens: 1200,
+    max_output_tokens: 8000,
     store: false,
   });
 

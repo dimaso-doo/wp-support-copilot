@@ -15,7 +15,6 @@ type ConversationTurn = {
 };
 
 type SavedConversation = {
-  context: string;
   customerMessage: string;
   reply: string;
   sources: Source[];
@@ -24,7 +23,6 @@ type SavedConversation = {
 
 const STORAGE_KEY = "wp-support-copilot:conversation:v1";
 const EMPTY_CONVERSATION: SavedConversation = {
-  context: "",
   customerMessage: "",
   reply: "",
   sources: [],
@@ -91,7 +89,6 @@ export function SupportCopilot() {
         if (saved) {
           const parsed = JSON.parse(saved) as Partial<SavedConversation>;
           setConversation({
-            context: typeof parsed.context === "string" ? parsed.context : "",
             customerMessage:
               typeof parsed.customerMessage === "string"
                 ? parsed.customerMessage
@@ -136,7 +133,6 @@ export function SupportCopilot() {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
-          context: conversation.context,
           customerMessage: message,
           history: conversation.history,
         }),
@@ -238,24 +234,6 @@ export function SupportCopilot() {
         <form className="copilot-grid" onSubmit={generateReply}>
           <section className="input-panel card" aria-label="Conversation input">
             <div className="field-heading">
-              <label htmlFor="site-context">Site details / context</label>
-              <span>Optional</span>
-            </div>
-            <textarea
-              id="site-context"
-              className="context-area"
-              value={conversation.context}
-              onChange={(event) =>
-                setConversation((current) => ({
-                  ...current,
-                  context: event.target.value.slice(0, 12000),
-                }))
-              }
-              placeholder="Plan, theme, domain, recent troubleshooting, or relevant conversation context…"
-              maxLength={12000}
-            />
-
-            <div className="field-heading customer-heading">
               <label htmlFor="customer-message">Customer message</label>
               <span>Required</span>
             </div>

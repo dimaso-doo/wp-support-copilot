@@ -8,7 +8,6 @@ import { checkRateLimit, requestFingerprint } from "@/lib/rate-limit";
 export const runtime = "nodejs";
 
 const GenerateSchema = z.object({
-  context: z.string().max(12000).default(""),
   customerMessage: z.string().trim().min(1).max(8000),
   history: z
     .array(
