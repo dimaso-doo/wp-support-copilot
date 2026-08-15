@@ -226,10 +226,6 @@ a {
   text-transform: uppercase;
 }
 
-.customer-heading {
-  margin-top: 23px;
-}
-
 textarea,
 .login-form input {
   width: 100%;
@@ -262,10 +258,6 @@ textarea:focus,
   background: white;
   border-color: var(--blue);
   box-shadow: 0 0 0 3px rgba(23, 105, 224, 0.11);
-}
-
-.context-area {
-  min-height: 104px;
 }
 
 .message-area {
