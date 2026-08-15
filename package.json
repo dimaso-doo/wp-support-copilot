@@ -1,0 +1,34 @@
+{
+  "name": "wp-support-copilot",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "eslint",
+    "typecheck": "tsc --noEmit",
+    "ingest:docs": "node scripts/ingest-docs.mjs"
+  },
+  "dependencies": {
+    "cheerio": "^1.2.0",
+    "next": "16.3.1",
+    "openai": "^7.4.0",
+    "react": "19.2.8",
+    "react-dom": "19.2.8",
+    "robots-parser": "^3.0.1",
+    "server-only": "^0.0.1",
+    "turndown": "^7.2.4",
+    "zod": "^4.4.3"
+  },
+  "devDependencies": {
+    "@types/node": "^20",
+    "@types/react": "^19",
+    "@types/react-dom": "^19",
+    "@types/turndown": "^5.0.6",
+    "eslint": "^9",
+    "eslint-config-next": "16.3.1",
+    "typescript": "^5"
+  },
+  "packageManager": "pnpm@11.19.0"
+}
